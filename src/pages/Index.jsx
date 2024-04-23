@@ -35,7 +35,7 @@ const Index = () => {
         size="lg"
         mb={3}
       />
-      <Button leftIcon={<FaPlus />} colorScheme="blue" onClick={addTask}>
+      <Button leftIcon={<FaPlus />} colorScheme="green" onClick={addTask}>
         Add Task
       </Button>
       <List spacing={3} mt={5}>
