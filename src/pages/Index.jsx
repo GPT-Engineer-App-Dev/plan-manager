@@ -1,15 +1,58 @@
-// Complete the Index page component here
-// Use chakra-ui
-import { Button } from "@chakra-ui/react"; // example
-import { FaPlus } from "react-icons/fa"; // example - use react-icons/fa for icons
+import React, { useState } from 'react';
+import { Box, Button, Input, List, ListItem, IconButton, useToast } from '@chakra-ui/react';
+import { FaPlus, FaTrash } from 'react-icons/fa';
 
 const Index = () => {
-  // TODO: Create the website here!
+  const [tasks, setTasks] = useState([]);
+  const [input, setInput] = useState('');
+  const toast = useToast();
+
+  const addTask = () => {
+    if (input.trim() === '') {
+      toast({
+        title: 'No task entered',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+    setTasks([...tasks, input]);
+    setInput('');
+  };
+
+  const deleteTask = (index) => {
+    const newTasks = tasks.filter((_, i) => i !== index);
+    setTasks(newTasks);
+  };
+
   return (
-    <Button>
-      Hello world! <FaPlus />
-    </Button>
-  ); // example
+    <Box p={5}>
+      <Input
+        placeholder="Add a new task"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        size="lg"
+        mb={3}
+      />
+      <Button leftIcon={<FaPlus />} colorScheme="blue" onClick={addTask}>
+        Add Task
+      </Button>
+      <List spacing={3} mt={5}>
+        {tasks.map((task, index) => (
+          <ListItem key={index} d="flex" justifyContent="space-between" alignItems="center">
+            {task}
+            <IconButton
+              icon={<FaTrash />}
+              onClick={() => deleteTask(index)}
+              colorScheme="red"
+              aria-label="Delete task"
+            />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 };
 
 export default Index;
